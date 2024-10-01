@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         email: "",
@@ -30,6 +33,10 @@ export const Login = () => {
                 body: JSON.stringify(user)
             });
 
+            if(response.ok === true){
+                navigate("/");
+            }
+            
             console.log(response);
         } catch (error) {
             console.log(error);
