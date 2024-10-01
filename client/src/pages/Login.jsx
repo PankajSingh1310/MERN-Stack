@@ -1,12 +1,10 @@
 import { useState } from "react";
 
-export const Register = () => {
+export const Login = () => {
 
     const [user, setUser] = useState({
-        name: "",
         email: "",
-        password: "",
-        contact: ""
+        password: ""
     })
 
     const handleInput = (e) => {
@@ -27,28 +25,16 @@ export const Register = () => {
     return (
         <div className="container">
             <div className="main">
-                <div className="register-image">
-                    <img src="" alt="registration image" />
+                <div className="login-image">
+                    <img src="" alt="Login image" />
                 </div>
 
-                <div className="register-form">
+                <div className="login-form">
                     <div className="heading">
-                        <h1>Register User</h1>
+                        <h1>Login User</h1>
                     </div>
                     
                     <form className="form" onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="name">Name</label>
-                            <input 
-                                type="text" 
-                                name="name"
-                                placeholder="Enter Your Name"
-                                id="name"
-                                required
-                                value={user.name}
-                                onChange={handleInput}
-                            />
-                        </div>
 
                         <div>
                             <label htmlFor="name">Email</label>
@@ -76,20 +62,7 @@ export const Register = () => {
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="name">Contact</label>
-                            <input 
-                                type="number" 
-                                name="contact"
-                                placeholder="Enter Your Contact"
-                                id="contact"
-                                required
-                                value={user.contact}
-                                onChange={handleInput}
-                            />
-                        </div>
-
-                        <button type="submit">Regsiter</button>
+                        <button type="submit">Login</button>
 
                     </form>
                 </div>
