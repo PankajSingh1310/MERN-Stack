@@ -6,6 +6,8 @@ import { Contact } from "./pages/Contact";
 import { Services } from "./pages/Services";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Error } from "./pages/Error";
+import {Footer} from "../src/components/Footer/Footer";
 
 const App = () => {
   return (
@@ -19,7 +21,9 @@ const App = () => {
           <Route path="/contact" element={<Contact/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/login" element={<Login/>} />
+          <Route path="*" element={<Error />} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   )

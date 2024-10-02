@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 export const Register = () => {
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const {storeTokenInLocalStorage} = useAuth();
 
     const [user, setUser] = useState({
         name: "",
@@ -36,7 +38,17 @@ export const Register = () => {
             });
 
             if(response.ok === true){
-                navigate("/");
+              const res_data = await response.json();
+              console.log(res_data);
+              storeTokenInLocalStorage(res_data.token);
+
+              setUser({ name: "", email: "", password: "", contact: "" });
+              navigate("/");
+            }
+
+            else{
+              const res_data = await response.json();
+              console.log(res_data);
             }
             
             console.log(response);
@@ -47,75 +59,92 @@ export const Register = () => {
     };
 
     return (
-        <div className="container">
-            <div className="main">
-                <div className="register-image">
-                    <img src="" alt="registration image" />
-                </div>
-
-                <div className="register-form">
-                    <div className="heading">
-                        <h1>Register User</h1>
-                    </div>
-                    
-                    <form className="form" onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="name">Name</label>
-                            <input 
-                                type="text" 
-                                name="name"
-                                placeholder="Enter Your Name"
-                                id="name"
-                                required
-                                value={user.name}
-                                onChange={handleInput}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="name">Email</label>
-                            <input 
-                                type="email" 
-                                name="email"
-                                placeholder="Enter Your Email"
-                                id="email"
-                                required
-                                value={user.eamil}
-                                onChange={handleInput}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="name">Password</label>
-                            <input 
-                                type="password" 
-                                name="password"
-                                placeholder="Enter Your Password"
-                                id="password"
-                                required
-                                value={user.password}
-                                onChange={handleInput}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="name">Contact</label>
-                            <input 
-                                type="number" 
-                                name="contact"
-                                placeholder="Enter Your Contact"
-                                id="contact"
-                                required
-                                value={user.contact}
-                                onChange={handleInput}
-                            />
-                        </div>
-
-                        <button type="submit">Regsiter</button>
-
+        <>
+          <section>
+            <main>
+              <div className="section-registration">
+                <div className="container grid grid-two-cols">
+                  <div className="registration-image">
+                    <img
+                      src="/images/register.png"
+                      alt="a girl is trying to do registration"
+                      width="500"
+                      height="500"
+                    />
+                  </div>
+    
+                  {/* let tackle registration form  */}
+                  <div className="registration-form">
+                    <h1 className="main-heading mb-3">registration form</h1>
+                    <br />
+    
+                    <form onSubmit={handleSubmit}>
+                      <div>
+                        <label htmlFor="name">name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Name"
+                          id="name"
+                          required
+                          autoComplete="off"
+                          value={user.name}
+                          onChange={handleInput}
+                        />
+                      </div>
+    
+                      <div>
+                        <label htmlFor="email">email</label>
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="enter your email"
+                          id="email"
+                          required
+                          autoComplete="off"
+                          value={user.email}
+                          onChange={handleInput}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone">phone</label>
+                        <input
+                          type="number"
+                          name="phone"
+                          placeholder="phone"
+                          id="phone"
+                          required
+                          autoComplete="off"
+                          value={user.phone}
+                          onChange={handleInput}
+                        />
+                      </div>
+    
+                      <div>
+                        <label htmlFor="password">password</label>
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="password"
+                          id="password"
+                          required
+                          autoComplete="off"
+                          value={user.password}
+                          onChange={handleInput}
+                        />
+                      </div>
+    
+                      <br />
+                      <button type="submit" className="btn btn-submit">
+                        Register Now
+                      </button>
                     </form>
+                  </div>
                 </div>
-            </div>
-        </div>
-    )
-}
+              </div>
+            </main>
+          </section>
+        </>
+      );
+    };
+    

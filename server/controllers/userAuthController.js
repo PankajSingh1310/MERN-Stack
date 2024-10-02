@@ -17,7 +17,7 @@ const registerUser = async (req, res) => {
         const {name, email, password, contact} = req.body;
 
         const userExist = await userModel.findOne({email});
-        if(userExist) return res.status(409).send("User already exists try sign up using different email");
+        if(userExist) return res.status(409).json("User already exists try sign up using different email");
 
         const saltRounds = 10;
         bcrypt.genSalt(saltRounds, function(err, salt) {
@@ -30,11 +30,11 @@ const registerUser = async (req, res) => {
                 })
 
                 const token = generateToken(user);
-                res.status(201).send({message: "user created successfully", user, token});
+                res.status(201).json({message: "user created successfully", user, token});
             });
         });
     }catch(error){
-        res.send(error.message);
+        res.json(error.message);
     }
     
 }
@@ -45,23 +45,24 @@ const login = async (req, res) => {
         const { email, password } = req.body;
 
         const userExist = await userModel.findOne({email});
-        if(!userExist) return res.status(401).send("email or password is wrong");
+        if(!userExist) return res.status(401).json("email or password is wrong");
 
         bcrypt.compare(password, userExist.password, function(err, result) {
             
-            if(err) return res.status(500).send("Something went wrong");
+            if(err) return res.status(500).json("Something went wrong");
             
             if(result){
-                res.status(200).send("you can login");
+                const token = generateToken(userExist);
+                res.status(200).json({message: "you can login", user: userExist, token});
             }
 
             else{
-                res.status(401).send("email or password is wrong");
+                res.status(401).json("email or password is wrong");
             }
 
         });
     }catch(error){
-        res.send(error.message);
+        res.json(error.message);
     }
     
 }
